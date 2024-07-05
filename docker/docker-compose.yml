@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: job_parser
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: erjgi58fl8iflu
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  telegram_bot:
+    build: .
+    command: python main.py
+    volumes:
+      - .:/app
+    environment:
+      - TELEGRAM_BOT_API_TOKEN=7334197997:AAEmpt_czMuguFUADxbVDq8kas6Cn0uw3EU
+    depends_on:
+      - db
+
+volumes:
+  db_data:

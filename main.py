@@ -68,6 +68,19 @@ def save_to_db(vacancies):
     )
     cursor = conn.cursor()
 
+	# Проверка на существование таблицы и её создание, если она не существует
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS vacancies (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(255),
+            link TEXT UNIQUE,
+            company VARCHAR(255),
+            area VARCHAR(255),
+            salary VARCHAR(255),
+            description TEXT
+        )
+    """)
+	
     for vacancy in vacancies:
         cursor.execute("""
                 SELECT 1 FROM vacancies WHERE link = %s
